@@ -1,7 +1,6 @@
 package hello.securitylogin.repository;
 
 import hello.securitylogin.entity.User;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,21 +15,21 @@ import static org.assertj.core.api.Assertions.*;
 class MemberRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    UserRepository memberRepository;
 
     @Test
     void findByID() {
         User user1 = User.builder()
-                .userId("member1")
+                .username("member1")
                 .password("1234")
                 .email("min")
                 .role("admin")
                 .build();
 
         User user2 = User.builder()
-                .userId("member2")
+                .username("member2")
                 .password("1234")
-                .email("min")
+                .email("min1")
                 .role("user")
                 .build();
         User save1 = memberRepository.save(user1);
@@ -46,16 +45,16 @@ class MemberRepositoryTest {
     @Test
     void findAll() {
         User user1 = User.builder()
-                .userId("member1")
+                .username("member1")
                 .password("1234")
                 .email("min")
                 .role("admin")
                 .build();
 
         User user2 = User.builder()
-                .userId("member2")
+                .username("member2")
                 .password("1234")
-                .email("min")
+                .email("min1")
                 .role("user")
                 .build();
         User save1 = memberRepository.save(user1);
@@ -68,16 +67,16 @@ class MemberRepositoryTest {
     @Test
     void delete() {
         User user1 = User.builder()
-                .userId("member1")
+                .username("member1")
                 .password("1234")
                 .email("min")
                 .role("admin")
                 .build();
 
         User user2 = User.builder()
-                .userId("member2")
+                .username("member2")
                 .password("1234")
-                .email("min")
+                .email("min1")
                 .role("user")
                 .build();
         User save1 = memberRepository.save(user1);

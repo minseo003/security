@@ -11,28 +11,32 @@ import lombok.NoArgsConstructor;
 @Table(name = "USER")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
-public class User {
+public class User extends  BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userId;
+    @Column(nullable = false)
+    private String username;
     private String password;
+    @Column(unique = true)
     private String email;
     private String role;
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Builder
-    public User(Long id, String userId, String password, String email, String role) {
-        this.id = id;
-        this.userId = userId;
+    public User(String username, String password, String email, String role) {
+        this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
     }
 
-    public void toEntity(UserRequestDTO dto) {
-        this.userId = dto.getUserId();
-        this.password = dto.getPassword();
-        this.email = dto.getEmail();
-        this.role = dto.getRole();
-    }
+
 }
