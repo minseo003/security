@@ -2,21 +2,42 @@ package hello.securitylogin.config.auth;
 
 import hello.securitylogin.dto.UserRequestDTO;
 import hello.securitylogin.entity.User;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 //Authentication 객체에 저장할 수 있는 유일한 타입
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private User user;
+    private Map<String, Object> attributes;
 
     //일반 시큐리티 로그인
     public PrincipalDetails(User user) {
         this.user = user;
     }
+    //OAuth 로그인 시 사용
+    public PrincipalDetails(User user, Map<String, Object> attributes) {
+        this.user = user;
+        this.attributes = attributes;
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    //해당유저의 권한을 리턴하는 곳
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collect = new ArrayList<GrantedAuthority>();
@@ -57,4 +78,6 @@ public class PrincipalDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

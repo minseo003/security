@@ -5,6 +5,17 @@ spring:
     username: user
     password: Rnjsalstj03!
 
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 70838883846-6ubib6sno7q5cabh48u9skgb1flhirlu.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
   jpa:
     open-in-view: false
     hibernate:
@@ -19,3 +30,4 @@ spring:
 logging:
   level:
     org.hibernate.SQL: debug
+

@@ -1,6 +1,7 @@
 package hello.securitylogin.config;
 
 import hello.securitylogin.config.auth.PrincipalDetailsService;
+import hello.securitylogin.config.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final PrincipalDetailsService principalDetailsService;
+    private final PrincipalOauth2UserService principalOauth2UserService;
 
     @Bean
     public BCryptPasswordEncoder encodePwd() {
@@ -44,6 +45,16 @@ public class SecurityConfig {
                 .loginPage("/login") //form을 통한 로그인 활성화, 사용자가 Login이 필요한 페이지에 접근시 사용자에게 보여줄 formPage를 띄워줄 handler의 url지정
                 .loginProcessingUrl("/loginProc")  //해당주소로 요청이 오면 시큐리티가 낚아채서 대신 로그인 진행 ,컨트롤러에 로그인url만들지 않아도 됨
                 .defaultSuccessUrl("/"));  //성공하면 홈화면
+
+        //aouth2 로그인
+        http.oauth2Login(oauth -> oauth
+                .loginPage("/login")
+                //구글 로그인이 완료된 뒤 후처리 필요
+                // 1.코드받기(인증), 2.액세스토큰(권한),3.사용자 프로필정보를 가져와서, 4. 정보를 토대로 회원가입 자동진행
+                // 4-2 그 정보가 부족하면 추가적인 회원가입 진행
+                // Tip. 코드x,(액세스토큰 + 사용자 프로필 정보)
+                .userInfoEndpoint(c -> c.userService(principalOauth2UserService))
+        );
 
 
         return http.build();

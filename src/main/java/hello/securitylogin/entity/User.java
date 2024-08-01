@@ -2,13 +2,11 @@ package hello.securitylogin.entity;
 
 import hello.securitylogin.dto.UserRequestDTO;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Table(name = "USER")
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class User extends  BaseTimeEntity {
@@ -21,22 +19,16 @@ public class User extends  BaseTimeEntity {
     @Column(unique = true)
     private String email;
     private String role;
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
+    private String provider;
+    private String providerId;
 
     @Builder
-    public User(String username, String password, String email, String role) {
+    public User(String username, String password, String email, String role, String provider, String providerId) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
+        this.provider = provider;
+        this.providerId = providerId;
     }
-
-
 }

@@ -20,6 +20,7 @@ public class PrincipalDetailsService implements UserDetailsService {
      * PrincipalDetail에 user생성자 없이 return new PrincipalDetail()로 리턴
      * 내가 회원가입한 정보의 아이디와 패스워드가 아닌
      * 콘솔창?에 있는걸로 로그인된다
+     * 시큐리티 session(내부 Authentication(내부 UserDetails))
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

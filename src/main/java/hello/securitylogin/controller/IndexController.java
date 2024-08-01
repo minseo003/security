@@ -7,6 +7,7 @@ import hello.securitylogin.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -25,6 +26,12 @@ public class IndexController {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    @GetMapping("/test/login")
+    public @ResponseBody String testLogin(Authentication authentication) {
+        log.info("/test/login ==========");
+        log.info("authentication : " + authentication.getPrincipal());
+        return "세션정보확인하기";
+    }
     @GetMapping("/")
     public @ResponseBody String index() {
         return "인덱스 페이지 입니다";
