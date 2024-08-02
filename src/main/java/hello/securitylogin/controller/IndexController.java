@@ -46,13 +46,14 @@ public class IndexController {
         }
         return "유저 페이지입니다.";
     }
-
+    //관리자용 페이지
     @GetMapping("/admin")
     @ResponseBody
     public String admin() {
         return "어드민 페이지 입니다";
     }
 
+    //관리자용 페이지
     @Secured("MANAGER")
     @ResponseBody
     @GetMapping("/manager")
@@ -60,6 +61,8 @@ public class IndexController {
         return "매니저 페이지 입니다";
     }
 
+    // 스프링 시큐리티 덕분에 login처리하는 메서드는 컨트롤러에 없어도됨.
+    //로그인화면만 밑의 url로 구현하면된다
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -76,7 +79,7 @@ public class IndexController {
         String password = user.getPassword();
         String encPassword = bCryptPasswordEncoder.encode(password);
         user.setPassword(encPassword);
-        user.setRole("ROLE");
+        user.setRole("USER");
         userRepository.save(user);
         return "redirect:/";
     }

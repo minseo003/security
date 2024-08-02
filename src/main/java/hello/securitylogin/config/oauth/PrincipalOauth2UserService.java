@@ -3,6 +3,7 @@ package hello.securitylogin.config.oauth;
 
 import hello.securitylogin.config.auth.PrincipalDetails;
 import hello.securitylogin.config.oauth.provider.GoogleUserInfo;
+import hello.securitylogin.config.oauth.provider.KakaoUserInfo;
 import hello.securitylogin.config.oauth.provider.OAuth2UserInfo;
 import hello.securitylogin.entity.User;
 import hello.securitylogin.repository.UserRepository;
@@ -16,6 +17,9 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Map;
 import java.util.Optional;
 
 @Slf4j
@@ -39,6 +43,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
     }
 
     private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
+
         //Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함
         OAuth2UserInfo oAuth2UserInfo = null;
         if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
@@ -46,11 +51,13 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
             log.info("카카오 로그인 요청");
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
-            log.info("네이버 로그인 요청");
+            oAuth2UserInfo = new KakaoUserInfo(oAuth2User.getAttributes());
         } else {
             log.info("지원되지 않는 로그인");
         }
+        log.info("getAttributes={}", oAuth2User.getAttributes());
+        log.info("provider={}",oAuth2UserInfo.getProvider());
+        log.info("providerId={}",oAuth2UserInfo.getProviderId());
         Optional<User> userOptional = userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
 
         User user;

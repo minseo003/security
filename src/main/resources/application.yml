@@ -15,6 +15,24 @@ spring:
             scope:
               - email
               - profile
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+          kakao:
+            client-id: b178cb8ee5deaa53b95b0610138c2436
+            client-secret: glyvkhd9AaBrtqsyJsT1rmXwLySbFqA6
+            scope:
+              - profile_nickname  #api 콘솔 확인해서 이름가져오기 각각 api마다 다름
+              - account_email
+            client-name: Kakao
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            client-authentication-method: client_secret_post
+
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user_name_attribute: id
 
   jpa:
     open-in-view: false
